@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ending Page</title>
+
+        <link rel="stylesheet" href="light.css">
+
+        <script src="functions.js">
+            
+        </script>
+    </head>
+    <!--completeTime and parameter called from external js -->
+    <body onload="displayEnd();">
+        <audio id="player" autoplay loop>
+            <source src="sound/Life-Was-Hard.mp3" type="audio/mp3">
+        </audio>
+        <div id="header">
+            <h1 id="title">Twisted Tower</h1>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p>Resize Font:</p>
+                <button onclick="buttonClick();resizeText('less');" id="less">-</button>
+                <button onclick="buttonClick();resizeText('more');" id="more">+</button>
+                <br>
+                <p>Theme:</p>
+                <button onclick="buttonClick();changeTheme('dark');">Dark Mode</button>
+                <button onclick="buttonClick();changeTheme('light');">Light Mode</button>
+                <p>Sound:</p>
+                <button onclick="buttonClick();mute()">Mute Music</button>
+            </div>
+            <div class="column-game">
+                <p>Summary</p>
+                <div id="timeOver" style="display:none">
+                    <p>You ran out of time! Your friend still needs help.</p>
+                    <img src="images/death.png" alt="death" width="300px">
+                </div>
+                <div id="die" style="display:none">
+                    <p>You died before you could save your friend. Try again!</p>
+                    <img src="images/death.png" alt="death" width="300px">
+                </div>
+                <div id="win" style="display:none">
+                    <p>You won! You saved your friend in time.</p>
+                    <img src="images/win.png" alt="death" width="300px"><br>
+                    <img src="" width="100px" id="end_avatar" alt="userAvatar">
+                    <img src="" width="100px" id="end_friendAvatar" alt="friendAvatar">
+                </div>
+                <p id="timeCompleted"></p>
+                <p id="lives"></p>
+                <p id="attempts"></p>
+                <p>Items you collected:</p>
+                <div id="displaySword" style="display:none">
+                    <p>You collected a sword.</p>
+                </div>
+                <div id="displayShield" style="display:none">
+                    <p>You collected a shield.</p>
+                </div>
+                <div id="displayEaster_egg" style="display:none">
+                    <p>You collected the easter egg.</p>
+                </div>
+                <div id="displayHelmet" style="display:none">
+                    <p>You collected the helmet.</p>
+                </div>
+                <div id="displayChestplate" style="display:none">
+                    <p>You collected the chestplate.</p>
+                </div>
+                <div id="playAgain">
+                    <button onclick=buttonClick();playAgain()>Play Again</button>
+                </div>
+                <div id="exit">
+                    <button onclick=buttonClick();exit()>Exit</button>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demo Game</title>
+        <link rel="stylesheet" href="light.css">
+        <script src="functions.js">
+            var currentDiv='intro';
+        </script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+        </style>
+    </head>
+    <body onload="startTimer(); receive();">
+        <audio id="player" autoplay loop>
+            <source src="sound/Mister-Sneakypants_Looping.mp3" type="audio/mp3">
+        </audio>
+        <div id="header">
+            <h1 id="title">Twisted Tower</h1>
+        </div>
+        <div class="row">
+            <div id="column" class="column">
+                <span>
+                    <p>Life Bar:</p>
+                    <img src="images/i01_heart.png" width="30px;"  class="life">
+                    <img src="images/i01_heart.png" width="30px;"  class="life">
+                    <img src="images/i01_heart.png" width="30px;"  class="life">
+                    <img src="images/i01_heart.png" width="30px;"  class="life" style="display:none">
+                <span>
+                <br>
+                <span id="playerName"></span><br>
+                <img src="" id="avatar_image" width="60px" height="100px">
+
+            <span>
+                    <p>Inventory:</p>
+                    <div id='sword' style = "display:none"><img src="images/sword.png" height="100px"></div>
+                    <div id='shield' style = "display:none"><img src="images/shield.png" width="100px" height="90px"></div>
+                    <div id="easter_egg" style = "display:none"><img src="images/easter_egg.png" height="90px"></div>
+                    <div id="chestplate" style = "display:none"><img src="images/chestplate.png" width="100px" height="90px"></div>
+                    <div id="helmet" style = "display:none"><img src="images/helmet.png" width="100px" height="90px"></div>
+                    <div id="sword" style = "display:none"><img src="images/sword.png" width="100px" height="90px"></div>
+                </span>
+                <p>Resize Font:</p>
+                <button onclick="buttonClick();resizeText('less');" id="less">-</button>
+                <button onclick="buttonClick();resizeText('more');" id="more">+</button>
+                <br>
+                <p>Theme:</p>
+                <button onclick="buttonClick();changeTheme('dark');">Dark Mode</button>
+                <button onclick="buttonClick();changeTheme('light');">Light Mode</button>
+                <p>Sound:</p>
+                <button onclick="buttonClick();mute()">Mute Music</button>
+                <button onclick="exit();">EndGame</button>
+            </div>
+            <div id = "game_div" class="column-game"> 
+
+                <div class="timerWrapper">
+                    <div id="backLevel">
+                        <div id="frontLevel">
+
+                        </div>
+                    </div>
+                    <h1 id="timeOut"></h1>
+                </div>                    
+                <div id="intro">
+                    <p id="ooo">You have battled long and hard, travelled far and wide just to finally get to where you now stand. 
+                        You stand on the precipice in front of the Castle you have been searching for all this time. 
+                        It towers high above you, a daunting fortress. Impenetrable. Or so you thought. 
+                        You see the main doors they seem abandoned plenty of time for you to sneak in without anybody knowing, 
+                        it would definitely be riskier but could be a more direct path. 
+                        You also notice an entrance at the side of the mountain it looks like it heads underground, 
+                        this could be a safer route in with less resistance. What do you choose?</p>
+                    <p>Click on the image where you are going to advance to</p>
+                    
+                    <div id="imageStyle">
+                    <img src="images/castle.jpeg" width="600px" usemap="#imageMap" alt="Castle/Cave">
+                        <map name="imageMap">
+                            <area shape="rect" coords="50,20,500,300" title="castle" onclick="showNextChoice('1.1','intro')">
+                            <area shape="rect" coords="50,300,250,450" title="cave" onclick="showNextChoice('1.2', 'intro');">
+                        </map>
+                    </div>
+                    <!--
+                    <p><a onclick="showNextChoice('1.1', 'intro');">castle</a></p>
+                    <p><a onclick="showNextChoice('1.2', 'intro');">cave</a></p>-->
+                </div>
+                <div id="1.1" style="display:none">
+                    <p>
+                        You decide to go for the main door, the quicker you can get to <span class="friendName"></span> the better. 
+                        <br>You begin to head up the path but soon find that the door in is blocked by an ogre that had disguised itself into the surroundings. 
+                        <br>Quick what do you do?
+                    </p>
+        
+                    <p><a onclick="showNextChoice('1.1.death', '1.1');">Attack him</a></p>
+                    <p><a onclick="showNextChoice('1.1.3', '1.1');">Be nice</a></p>
+                    <div id="imageStyle">
+                        <img src="images/ogre.png" width="600px" alt="ogre">
+                    </div>
+                </div>
+                <div id="1.1.death" style="display:none">
+                    <p>
+                        You decide to attempt to fight the ogre. You raise your old, <br>
+                        rusted sword ready to strike but all of a sudden it crumbles in your hands. 
+                        <br>You stand no chance the ogre over powers you and slaughters you on sight.
+                        <p><a onclick="endGame(1);">End Game</a></p>
+
+                    </p>
+                </div>
+                <div id="1.1.3"  style="display:none">
+                    <p>
+                        You decide to ask the ogre nicely if you can get past to get to the castle. 
+                        <br>The ogre is flattered that you asked him and agrees to let you past. 
+                        <br>You now stand Infront of the door into the castle you could continue in through the door like you 
+                        planned or you could attempt to climb the castle wall as there is no guarantee that the door is open.
+                    </p>
+
+                    <p><a onclick="showNextChoice('game2', '1.1.3');">Climb Wall</a></p>
+                    <p><a onclick="doorSound();showNextChoice('1.1.4', '1.1.3');">Enter through front door</a></p>
+
+                    <div id="imageStyle">
+                        <img src="images/castle_front.jpeg" width="600px" alt="castle_front">
+                    </div>
+                </div>
+                <div class="miniGame" id="game2" style="display:none">
+                    <p>Click the rocks and avoid the birds.</p>
+                    <button onclick="buttonClick();StartTimer2()">Start Game</button>
+
+                    <div class="miniGameTimerWrapper">
+                        <div class="miniGameBackLevel">
+                            <div id="miniGameFrontLevel2">
+   
+                            </div>
+                        </div>
+                    </div>                   
+    
+                        <div id="miniGameScreen2">
+                            <div id="box2" onclick="Action2()" style="display:none"><img src="" class="box_images" id='box_image2'> </div>
+                        </div>
+                </div>
+
+                <div id="game2.win" style="display:none">
+                    <p>You successfully climb the wall and jump over so you now stand in the castle</p>
+                    <p><a onclick="showNextChoice('1.1.4','game2.win');">advance</a></p>
+                </div>
+
+                <div id="1.1.3.death" style="display:none">
+                    <p>
+                        You attempt to climb the castle wall you make it halfway but all of a sudden, your foot gives way and you plumet to your death. 
+                        <br>Leaving <span class="friendName"></span> stuck in the tower forever.
+                    </p>
+                    <p><a onclick="endGame(1);">End Game</a></p>
+                </div>
+                <div id="1.1.4" style="display:none">
+                    <p>
+                        You find yourself in a corridor that has four doors and stairs leading to a courtyard.
+                        <br>You should explore the rooms before heading to the courtyard.
+                    </p>
+                    <p><a onclick="showNextChoice('1.1.5', '1.1.4');">Room 1</a></p>
+                    <p><a onclick="showNextChoice('1.1.6', '1.1.4');">Room 2</a></p>
+                    <p><a onclick="showNextChoice('1.1.7', '1.1.4');">Room 3</a></p>
+                    <p><a onclick="showNextChoice('1.1.8', '1.1.4');">Room 4</a></p>
+                    <p><a onclick="showNextChoice('1.3', '1.1.4');">Courtyard</a></p>
+                </div>
+                <div id="1.1.5" style="display:none">
+                    <p>
+                        You enter a spotless kitchen it is vast in size it is sure to hold something that could help you on your travels.
+                    </p>
+                    <p>
+                        Click around and see what you can find
+                    </p>
+                    <p><a onclick="doorSound();showNextChoice('1.1.4','1.1.5');">Back to hallway</a></p>
+
+                    <div id="imageStyle">
+                        <img src="images/kitchen-shield.png" width="600px" alt="kitchen" usemap="#kitchenmap">
+                        <map name="kitchenmap">
+                            <area shape="rect" coords="1,350,120,480" title="shield" onclick="gainSound();getItem(1);">
+                        </map>
+                    </div>
+                </div>
+                <div id="1.1.6" style="display:none">
+                    <p>
+                        You emerge into a throne that is adorned in gold and red colouring this looks like it could hold some important items. 
+                        <br>You might have to search hard to find these items.
+                    </p>
+                    <p>
+                        You should look around and see if you can find something valuable.
+                    </p>
+                    <p><a onclick=" doorSound();showNextChoice('1.1.4','1.1.6');">Back to hallway</a></p>                 
+                      <div id="imageStyle">
+                        <img src="images/throne_room_egg.png" width="600px" alt="throne" usemap="#thronemap">
+                        <map name="thronemap">
+                            <area shape="rect" coords="140,350,220,450" title="easter egg" onclick="gainSound();getItem(2);">
+                        </map>
+                    </div>
+                </div>
+                <div id="1.1.7" style="display:none">
+                    <p>
+                        You enter what looks like a museum, it is filled with priceless artifacts all around. 
+                        <br>All of them are in glass boxes though so there is no chance of you being able to access these. 
+                        <br>You decide to head back
+                    </p>
+                    <p><a onclick="doorSound();showNextChoice('1.1.4','1.1.7');">Back to hallway</a></p>         
+                   <div id="imageStyle">
+                        <img src="images/exhibition_room.jpeg" width="600px" alt="exhibition_room">
+                    </div>
+                </div>
+                <div id="1.1.8" style="display:none">
+                    <p>
+                        You enter into an armoury which is filled with all different types of protective gear. <br>I wonder if any would fit you. Look around and see.
+                    </p>
+                    <p>
+                        Click around and see what you can find.
+                    </p>
+                    <p><a onclick="doorSound();showNextChoice('1.1.4','1.1.8');">Back to hallway</a></p>
+                    <div id="imageStyle">
+                        <img src="images/armoury.png" width="600px" alt="armoury" usemap="#armourymap">
+                        <map name="armourymap">
+                            <area shape="rect" coords="350,200,600,440" title="sword" onclick="gainSound();getItem(0);">
+                        </map>
+                    </div>
+
+                </div>
+
+                <div id="1.2" style="display:none">
+                    <p>
+                        The entrance on the side of the mountain looks safer, so you head underground. 
+                        You creep inside and find you’re in the middle of a cave. Its dark and cavernous, you can barely see a thing. 
+                        You need to find a way to keep moving forward, your friend <span class="friendName"></span> needs you. Quick search in the dark for a way forward.
+                    </p>
+                    <p>
+                        You find a cliff that looks down into the darkness. You throw a rock to determine how far down the ground is.
+                        It doesn't sound too far, you could make the jump?
+                    </p>
+                    <p>
+                        You spot a staircase that leads down, it looks like the safest path to follow, though it could cost you precious time and <span class="friendName"></span>
+                        needs you. 
+                        <br>What are you gonna do?
+                    </p>
+    
+                    <p><a onclick="showNextChoice('game1', '1.2');">Jump for it</a></p>
+                    <p><a onclick="showNextChoice('1.2.2', '1.2');">Follow the staircase</a></p>
+
+                    <div id="imageStyle">
+                        <img src="images/cave.jpeg" width="600px" alt="cave">
+                    </div>
+                </div>
+                <div class="miniGame" id="game1" style="display:none">
+                    <p>Click the rocks and avoid the bats.</p>
+                    <button onclick="buttonClick();miniGameStartTimer()">Start Game</button>
+                    <div class="miniGameTimerWrapper">
+                        <div class="miniGameBackLevel">
+                            <div id="miniGameFrontLevel">
+   
+                            </div>
+                        </div>
+                    </div>                   
+                        <div id="miniGameScreen">
+                            <div id="box" onclick="Action()" style="display:none"><img src="" class="box_images" id='box_image'> </div>
+                        </div>
+                </div>
+                <div id="1.2.1" style="display:none" >
+                    <p>You miss the landing and fall hard on some sharp rocks, leaving you in pain.</p>
+                    <p><a onclick="loseLife('1.2.1'); showNextChoice('1.2.3','1.2.1')">Advance</a></p>
+                </div>
+                <div id="1.2.success" style="display:none" >
+                    <p>You make the dangerous jump without any injuries!
+                    </p>
+                    <p><a onclick="showNextChoice('1.2.3','1.2.success')">advance</a></p>
+                </div>
+                <div id="1.2.2" style="display:none">
+                    <p>You follow the staircase, this is the safer option though this costs you precious time</p>
+                    <p><a onclick="loseTime(); showNextChoice('1.2.3','1.2.2')">Advance</a></p>
+                </div>
+                <div id="1.2.3" style="display:none">
+                    <p>
+                        You notice that there is a group of guards stationed protecting a door.<br>
+                        You could fight them but all the weapons you brought are not in working condition and there would be a high chance you would lose.<br>
+                        You could also attempt to sneak past them to get the door on the other side but it would be risky you could be injured. <br>
+                        However, you see a small rock in the distance it could be used as a distraction if you aim it just right it could 
+                        allow you to sneak past with no detection. 
+                        <br>Which do you choose <span id="playerName"></span>?
+                    </p>
+
+                    <p><a onclick="showNextChoice('1.death','1.2.3');">Fight</a></p>
+                    <p><a onclick="doorSound();showNextChoice('1.2.4','1.2.3'); loseLife('1.3.1', 1);">Sneak Past</a></p>
+                    <p><a onclick="doorSound();showNextChoice('1.2.5','1.2.3');">Distract</a></p>
+
+                    <div id="imageStyle">
+                        <img src="images/guard_door.png" width="600px" alt="guards_door">
+                    </div>
+                </div>
+                <div id="1.death" style="display:none">
+                    <p>
+                        You decide to attempt to fight the two guards. 
+                        <br>You raise your old, rusted sword ready to strike but all of a sudden it crumbles in your hands. 
+                        <br>You stand no chance the guards over power you and slaughter you on sight.
+                    </p>
+                    <p><a onclick="endGame(1);">END GAME</a></p>
+                </div>
+                <div id="1.2.4" style="display:none">
+                    <p>
+                        You decide to sneak past the guards. As soon as the guards turn their backs you start to tip toe past them trying not to make any 
+                        sudden movements. <br>You are so close to the door when one of the guards catches a glimpse of you and begins to charge. 
+                        <br>You sprint to the door and close it before just in the nick of time. 
+                        <br>However, it seems the guard’s sword caught you just as you closed the door injuring you. 
+                        <br>You look around a find that you are in an underground dungeon. You should search around and see what you can find.
+                    </p>
+                    <p><a onclick="showNextChoice('1.2.6','1.2.4')">Advance</a></p>
+
+                    <div id="imageStyle">
+                        <div id="divTorch">
+                            <img src="images/dungeon-chestplate.png" alt="dungeon" width="600px" usemap="#dungeonmap">
+                            <map name="dungeonmap">
+                                <area shape="rect" coords="430,400,600,520" title="chestplate" onclick="gainSound();getItem(3);">
+                            </map>
+                        </div>
+                    </div>
+                </div>
+                <div id="1.2.5" style="display:none">
+                    <p>
+                        You decide distraction is the best method. You reach for the rock and throw it as far away as possible. 
+                        <br>The guards fall for it, and they take off at full speed to find the source of the noise. 
+                        <br>The path is completed clear for you to get to the door and enter it
+                        <br>You look around a find that you are in an underground dungeon. You should search around and see what you can find.
+                    </p>
+                    <p><a onclick="showNextChoice('1.2.6','1.2.5')">advance</a></p>
+                    
+                    <div id="imageStyle">
+                        <div id="divTorch2">
+                            <img src="images/dungeon-chestplate.png" alt="dungeon" width="600px" usemap="#dungeonmap">
+                            <map name="dungeonmap">
+                                <area shape="rect" coords="430,400,600,520" title="chestplate" onclick="gainSound();getItem(3);">
+                            </map>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="1.2.6" style="display:none">
+                    <p>
+                        You find a door that has light peeking out from under it, you open it and follow the stairs up.
+                    </p>
+                    <p><a onclick="doorSound();showNextChoice('1.2.7','1.2.6');">...</a></p>
+                </div>
+                <div id="1.2.7" style="display:none">
+                    <p>You find some prisoners. Do you free them or continue? </p>
+                    <p><a onclick="showNextChoice('game3','1.2.7');">Free prisoners</a></p>
+                    <p><a onclick="showNextChoice('1.3','1.2.7');">Advance</a></p>
+                </div>
+                <div id="game3" style="display:none">
+                    <p>
+                        From your searching you find a cell door, you hear noise coming from behind it. There must be people behind it. 
+                        <br>You try pry the door open but its locked, you will have to pick the lock.
+                    </p>
+                    <div id="imageStyle">
+                        <img src="images/lockpick.png" width="200px" usemap="#lockpickImage">
+                        <map name="lockpickImage">
+                            <area id="lockpickArea" shape="rect" coords="10, 90, 30, 110" title="Pick" href="javascript:ChangeCoord();">
+                        </map>
+                        <p id="coordDisplay">10, 90, 30, 110</p>
+                        <p><a onclick="doorSound();showNextChoice('game2.lose','game2');">Give up</a></p>
+                    </div>
+                </div>
+                <div id="game3.win" style="display:none">
+                    <p>
+                        You successfully pick the lock and the prisoners behind the door are set free. 
+                        <br>The prisoners thank you by giving you a shield, this should help you with any future battles you face in your journey. 
+                        <br>You find a door that has light peeking out from under it, you open it and follow the stairs up.
+                        <p><a onclick="doorSound();gainSound();getItem(1), showNextChoice('1.3','game3.win');">advance</a></p>
+                    </p>
+                </div>
+                <div id="game3.lose" style="display:none">
+                    <p>
+                        You could not successfully unpick the lock you leave defeated knowing that you have left innocent prisoners to die in the dungeon. 
+                        <br>You find a door that has light peeking out from under it, you open it and follow the stairs up.
+                        <p><a onclick="doorSound();showNextChoice('1.3','game3.lose');">advance</a></p>
+                    </p>
+                </div>
+                <div id="1.3" style="display:none">
+                    <p>
+                        You emerge at the top of the stairs into a courtyard. You are so close now to <span class="friendName"></span>, you see the tower ahead of you. 
+                        Quick look around one last time before you go battle the menacing beast guarding tower where you are sure <span class="friendName"></span> is located?
+                    </p>
+                    <p>
+                        Click Around and see what you can find
+                    </p>
+                    <p><a onclick="doorSound();showNextChoice('finalBattle','1.3');loadFinalChoices();">Enter Door</a></p>                    
+                    <div id="imageStyle">
+                        <img src="images/courtyard-helmet.png" width="600px" alt="courtyard" usemap="#courtmap">
+                        <map name="courtmap">
+                            <area shape="rect" coords="430,350,500,420" title="helmet" onclick="gainSound();gainLife(1);getItem(4);">
+                        </map>
+                    </div>
+                </div>
+                <div id="finalBattle" style="display:none">
+                    <p>
+                        You enter the door and come face to face with the wizard who has <span class="friendName"></span> captive. 
+                        <br>Its now or never time to save your friend. What do you do?
+                    </p>
+                    <p><a id="hasNoSword" onclick="showNextChoice('2.2','finalBattle');">Fight</a></p>
+                    <p id="hasSword" style="display:none"><a onclick="showNextChoice('2.1','finalBattle');">Fight with your sword</a></p>
+                    <p id="hasNoShield"><a onclick="showNextChoice('2.4','finalBattle');">Block</a></p>
+                    <p id="hasShield" style="display:none"><a onclick="showNextChoice('2.3','finalBattle');">Block with your shield</a></p>
+                    <p><a onclick="showNextChoice('2.5','finalBattle');">Run Away</a></p>                 
+                     <div id="imageStyle">
+                        <img src="images/wizard.png" width="400px" alt="wizard">
+                    </div>
+                </div>
+                <div id="2.1" style="display:none">
+                    <p>
+                        You ready your sword to strike at the wizard but he is to quick and disarms you in seconds. 
+                        <br>You have no chance now and so the wizard makes quick work of you and you friend is locked away forever.                        <br><br>
+                        <p><a onclick="endGame(1);">END GAME</a></p>
+                    </p>
+                </div>
+                <div id="2.2" style="display:none">
+                    <p>
+                        You had no sword to fight with, so you raise your fists in an attempt to scrap the wizard but he is prepared. 
+                        <br>You have no chance and so the wizard makes quick work of you and <span class="friendName"></span> is locked away forever.
+                        <br><br>
+                        <p><a onclick="endGame(1);">END GAME</a></p>              </p>
+                </div>
+                <div id="2.3" style="display:none">
+                    <p>
+                        You raise your shield ready for the wizard's incoming blast. Its ricochets off your shield and blast back at the wizard. 
+                        <br>The blast hits him unaware and he is overcome by the inflicted damage.
+                        <br>You rush up the stairs of the tower and find <span class="friendName"></span> at the top. You are reunited again! You hug with joy as your adventure was all worth it in the end.
+                        <br><br>THE END
+                        <br><br>
+                        <p><a onclick="endGame(2);">END GAME</a></p>                    </p>
+                </div>
+                <div id="2.4" style="display:none">
+                    <p>
+                        You go to shield against the wizard defences but finding nothing there. You could have sworn you had brought a shield with you. 
+                        <br>With nothing to shield against the wizards oncoming blast you are killing instantly. 
+                        <br>Dooming <span class="friendName"></span> to forever reside in the tower.
+                        <p><a onclick="endGame(1);">END GAME</a></p>                    </p>
+                    </p>
+                </div>
+                <div id="2.5" style="display:none">
+                    <p>
+                        The wizard is more menacing than you imagined you decide <span class="friendName"></span> can save themselves. 
+                        <br>You sprint to the exit of the castle and head home
+                        <br><br>
+                        <p><a onclick="endGame(1);">END GAME</a></p>                    </p>
+                </div>
+                <div id="death" style="display:none">
+                    <p>death</p>
+
+                    <p><a onclick="showNextChoice('intro', 'death');">retry</a></p>
+                </div>
+            </div> 
+        </div>
+    </body>
+</html>

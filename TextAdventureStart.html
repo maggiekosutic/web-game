@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page
+        </title>
+        <link rel="stylesheet" href="light.css">
+        <script src="functions.js"></script>
+    </head>
+    <body onload="setValues();">     
+        <audio id="player" autoplay loop>
+            <source src="sound/A-Meadow-of-Mysteries.mp3" type="audio/mp3">
+        </audio>
+        <div id="header">
+            <h1 id="title">Twisted Tower</h1>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p>Resize Font:</p>
+                <button onclick="buttonClick();resizeText('less');" id="less">-</button>
+                <button onclick="buttonClick();resizeText('more');" id="more">+</button>
+                <br>
+                <p>Theme:</p>
+                <button onclick="buttonClick();changeTheme('dark');">Dark Mode</button>
+                <button onclick="buttonClick();changeTheme('light');">Light Mode</button>
+                <p>Sound:</p>
+                <button onclick="buttonClick();mute()" onmousedown="bleep.play()">Mute Music</button>
+            </div>
+            <div class="column-game">
+                <form id="detailsForm" method="get" action="demo.html" onsubmit="return validateForm();">
+                    <p id="name">Enter Name:</p>
+                    <input type="text" placeholder="Type something..." id="myName"> <spad id="error"></spad>
+            
+                    <p id="fName">Enter Your Friend's Name:</p> 
+                    <input type="text" placeholder="Type something..." id="friendName">  <span id="error2"></span>
+                    <br>
+
+                    <p>Select your avatar:</p> <span id="error3"></span>
+                    <input type="radio" name="avatar" id="avatar"
+                        value="images/king.png">
+                    <label for="album"><img src="images/king.png" class="medium"></label>
+                    <input type="radio" id="avatar" name="avatar" id="avatar"
+                        value="images/queen.png">
+                    <label for="album"><img src="images/queen.png" class="medium"></label>
+                    <span id="error3"></span>
+
+                    <br>
+                    <br>
+                    <p>Select your friend's avatar:</p>
+                    <input type="radio" name="friendAvatar" id="friendAvatar"
+                        value="images/saviourBoy.png">
+                    <label for="album"><img src="images/saviourBoy.png" class="medium"></label>
+                    
+                    <input type="radio" id="friendAvatar" name="friendAvatar" 
+                        value="images/saviourGirl.png">
+                    <label for="album"><img src="images/saviourGirl.png" class="medium"></label>
+                    <span id="error4"></span>
+                    <br>
+                    <input type="submit" value="Start Game" onclick="startSound();">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
